@@ -9,7 +9,7 @@ const cardGrid = document.getElementById("card-grid");
 function generateCard(number){
     let card = document.createElement('div');
     card.classList.add("card-wrapper");
-    card.innerHTML = '<div class="card"><img class="front" src="'+images[number]+'" alt="'+number+'"></div></div>';
+    card.innerHTML = '<div class="card"><div class="back"></div><img class="front" src="'+images[number]+'" alt="'+number+'"></div></div>';
     return card;
 }
 
@@ -39,3 +39,10 @@ function initCards(){
 }
 
 initCards();
+
+cardGrid.addEventListener("click", function(e){
+    if(e.target.parentElement.classList.contains("card")){
+        const card = e.target.parentElement;
+        card.classList.toggle("flip");
+    }
+});
