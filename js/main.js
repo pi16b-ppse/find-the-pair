@@ -6,6 +6,10 @@ const images = ['img/cat1.png', 'img/cat2.png',
 'img/cat6.png', 'img/cat7.png', 'img/cat8.png'];
 let numberOfCards = 16;
 const cardGrid = document.getElementById("card-grid");
+let startTime;
+let delayTime = 2000;
+
+initCards();
 
 // Генерирует карточки для игровой сетки.
 function generateCard(number){
@@ -54,10 +58,39 @@ function changeAllCardsState(){
 
 function showAll(){
     changeAllCardsState();
-    setTimeout(changeAllCardsState, 2000);
+    setTimeout(changeAllCardsState, delayTime);
 }
 
-initCards();
+function startTimer(){
+    let min = 0;
+    let sec = 0;
+    startTime = new Date().getTime();
+
+    // Обновляем счётчик игры каждую секунду.
+    setInterval(function(){
+        let endTime = new Date().getTime();
+        endTime = endTime - startTime;
+
+        let min = Math.floor(endTime / 60000);
+        let sec = (endTime % 60000 / 1000).toFixed(0);
+
+        min = (min < 10) ? "0" + min : min;
+        sec = (sec < 10) ? "0" + sec : sec;
+
+        document.getElementById("timer").innerHTML = min + ":" + sec;
+    }, 1000);
+}
+
+function startGame(){
+    showAll(); // Показываем карточки на 2 секунды для запоминания.
+    // Запускаем таймер игры после того,
+    // как будут открыты и закрыты карточки (после двух секунд).
+    setTimeout(startTimer, delayTime);
+}
+
+document.getElementById("start-game").addEventListener("click", function(){
+    startGame();
+});
 
 // По клику изменяем состояние карточки:
 // открытую - скрывам, закрытую - открываем.
