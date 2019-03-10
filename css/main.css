@@ -20,51 +20,145 @@ body {
 
 h1 {
     font-family: 'Garamond', sans-serif;
-    font-weight: 700;
     font-size: 50px;
+    color: rgb(35, 15, 35);
+    margin: 15px;
 }
 
-#card-grid {
-    width: 450px;
-    height: 450px;
-    background: linear-gradient(160deg, #cc374f 0%, #832750 100%);
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 12px 15px 20px 0 rgba(42, 32, 45, 0.7);
+#menu {
+    width: 435px;
+    height: 40px;
     display: flex;
     flex-wrap: wrap;
 }
 
+#start-game {
+    width: 40%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: rgb(60, 20, 60);
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+#start-game:disabled {
+    background-color: rgb(70, 50, 70);
+    color: rgb(221, 221, 221);
+    cursor: default;
+}
+
+#timer {
+    width: auto;
+    height: 100%;
+    font-family: 'Garamond', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: rgb(35, 15, 35);
+    margin: 5px;
+}
+
+#card-grid {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(160deg, #cc374f 0%, #832750 100%);
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 20px 0 rgba(42, 32, 45, 0.7);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    position: relative;
+    cursor: pointer;
+    box-shadow: 5px 2px 10px 0 rgba(66, 50, 68, 0.7);
+    transition: transform 1s;
+    transform-style: preserve-3d; /*Вращение происходит в 3D.*/
+}
+
 .card-wrapper {
     perspective: 1000px;
-    background-color: gray;
-    margin: 10px;
-    /* Вычисляем высоту и длину карточек. (25 + 25) px для card-grid.padding 
-    и (10 + 10 + 10) для margins, делим на 4 карточки.*/
-    width: calc((100% - 80px) / 4);
-    height: calc((100% - 80px) / 4);
+    margin: 5px;
+    /* Вычисляем высоту и длину карточек. (15 + 15) px для card-grid.padding 
+    и (5 + 5 + 5) для margins, делим на 4 карточки.*/
+    width: calc((100% - 45px) / 4);
+    height: calc((100% - 45px) / 4);
     border-radius: 10px;
 }
 
 .card,
-.front {
+.front, .back {
     width: 100%;
     height: 100%;
     border-radius: 10px;
-    cursor: pointer;
-    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    position: absolute; /*Слои накладываются друг на друга.*/
 }
 
 .front {
-    position: absolute;
-    color: white;
-    backface-visibility: hidden;
-}
-
-.front {
-    max-width: 100%;
-    max-height: 100%;
-    background-size: contain;
-    font-size: 60px;
+    backface-visibility: hidden; /*Скрываем обратную поверхность.*/
+    font-size: 60px; /*Изменяем стиль шрифта на случай, если картинка
+    не отобразится и будет отображён альтернативный текст*/
     text-align: center;
+}
+
+.back{
+    background-color: rgb(60, 20, 65);
+}
+
+.close {
+    transform: rotateY(-180deg);
+}
+
+#modal-overlay {
+    width: 100%;
+    height: 120%;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0, 0, 0, 0.7);
+    margin: 0;
+    padding: 0;
+}
+
+#modal {
+    position: relative;
+    width: auto;
+    height: auto;
+    font-family: 'Garamond', sans-serif;
+    text-align: center;
+    background-color: rgb(255, 220, 150);
+    border-radius: 10px;
+}
+
+#modal-title {
+    font-size: 40px;
+    font-weight: bold;
+    color: rgb(60, 20, 65);
+    background-color: rgb(255, 200, 100);
+    border-radius: 10px 10px 0 0;
+    margin: 0;
+    padding: 10px;
+}
+
+#modal-body {
+    font-size: 20px;
+    color: rgb(60, 20, 65);
+    margin: 0;
+    padding: 10px;
+}
+
+#play-again {
+    width: 50%;
+    height: 40px;
+    border-radius: 10px;
+    color: rgb(60, 20, 65);
+    background-color: rgb(255, 200, 100);
+    border-color: rgb(255, 200, 100);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px;
 }

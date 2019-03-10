@@ -7,9 +7,20 @@
 <body>
  <div class="container">
     <header>
-    	<h1>Find The Pair</h1>
+        <h1>Find The Pair</h1>
     </header>
-	  <section id="card-grid"></section>
+    <section id="menu">
+    	<button id="start-game">Start game</button>
+    	<label id="timer">00:00</label>
+    </section>
+    <section id="card-grid"></section>
+    <section id="modal-overlay">
+    	<div id="modal">
+            <p id="modal-title">Congratulations!!!</p>
+            <p id="modal-body">You finished in <span id="time">00:00</span>.
+            <button id="play-again">Play again!</button>
+        </div>
+    </section>
 </div>
 <script src="js/main.js" defer></script>
 </body>
