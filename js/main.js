@@ -1,15 +1,17 @@
-console.log('Find The Pair started!');
-
  /* Объявляем картинки для карточек. */
 const images = ['img/cat1.png', 'img/cat2.png',
 'img/cat3.png', 'img/cat4.png', 'img/cat5.png',
 'img/cat6.png', 'img/cat7.png', 'img/cat8.png'];
-let numberOfCards = 16;
+let cardCount = 16; // Количество карточек на поле.
 const cardGrid = document.getElementById("card-grid");
 let startTime;
 let timerHandle;
 let delayTime = 2000;
 let isAnimation = false;
+let isStarted = false;
+
+let openCards = []; // Открытые карточки для проверки совпадений.
+let matchesNumber = 0; // Количество совпавших карточек.
 
 initCards();
 
@@ -25,20 +27,20 @@ function generateCard(number){
 
 // Создаёт пары карточек и добавляет их на игровую сетку.
 function initCards(){
-// Создаём массив последовательно идущих попарных картинок.
+    // Создаём массив последовательно идущих попарных картинок.
     let initialCards = [];
-    for(let i = 0;i<numberOfCards/2;i++){
+    for(let i = 0; i < cardCount / 2; i++){
         initialCards.push(generateCard(i));
         initialCards.push(generateCard(i));
     }
 
     // Перемешиваем картинки.
     let cards = [];
-    while(initialCards.length>0){
-        let ranNum = Math.floor(Math.random()*initialCards.length);
+    while(initialCards.length > 0){
+        let ranNum = Math.floor(Math.random() * initialCards.length);
         cards.push(initialCards[ranNum]);
-        if(ranNum>-1){
-            initialCards.splice(ranNum,1);
+        if(ranNum > -1){
+            initialCards.splice(ranNum, 1);
         }
     }
 
@@ -65,7 +67,7 @@ function showAll(){
 
 // Запускает таймер игры и делает доступными кнопку начала игры.
 function startTimer(){
-    isAnimation = false;
+    isStarted = true;
     document.getElementById("start-game").disabled = false;
 
     let min = 0;
@@ -89,9 +91,7 @@ function startTimer(){
 
 // Начинает игру.
 function startGame(){
-    isAnimation = true;
     document.getElementById("start-game").disabled = true;
-
     showAll(); // Показываем карточки на 2 секунды для запоминания.
     // Запускаем таймер игры после того,
     // как будут открыты и закрыты карточки (после двух секунд).
@@ -101,10 +101,32 @@ function startGame(){
 // Обнуляет все данные в игре.
 function resetGame(){
     // Сбрасываем игру, если была она была запущена.
-    if(timerHandle != null){
+    if (timerHandle != null){
+        isStarted = false;
+        while (cardGrid.firstChild) {
+            cardGrid.removeChild(cardGrid.firstChild);
+        }
+        initCards();
         clearInterval(timerHandle);
         document.getElementById("timer").innerHTML = "00:00";
     }
+}
+
+// Проверяет, совпадают ли открытые карточки.
+function checkForMatches() {
+    setTimeout(function(){
+        if (openCards[0].innerHTML != openCards[1].innerHTML){
+            openCards[0].classList.toggle("flip");
+            openCards[1].classList.toggle("flip");
+        } else {
+            matchesNumber += 2;
+        }
+        openCards = [];
+
+        if (matchesNumber == cardCount){
+            clearInterval(timerHandle); // Обнуляем счётчик времени.
+        }
+    }, 1000);
 }
 
 document.getElementById("start-game").addEventListener("click", function(){
@@ -115,9 +137,17 @@ document.getElementById("start-game").addEventListener("click", function(){
 // По клику на игровую карточку изменяем её состояние:
 // открытую - скрывам, закрытую - открываем.
 cardGrid.addEventListener("click", function(e){
-    if(isAnimation) return;
-    if(e.target.parentElement.classList.contains("card")){
+    if (isAnimation || !isStarted) return;
+    // Если карточка закрыта и количество открытых карточек меньше двух,
+    // открываем данную карточку.
+    if (e.target.parentElement.classList.contains("card") &&
+        e.target.parentElement.classList.contains("flip") &&
+        openCards.length < 2){
         const card = e.target.parentElement;
         card.classList.toggle("flip");
+        openCards.push(card);
+    }
+    if (openCards.length == 2){
+        checkForMatches();
     }
 });
