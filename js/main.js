@@ -7,7 +7,9 @@ const images = ['img/cat1.png', 'img/cat2.png',
 let numberOfCards = 16;
 const cardGrid = document.getElementById("card-grid");
 let startTime;
+let timerHandle;
 let delayTime = 2000;
+let isAnimation = false;
 
 initCards();
 
@@ -61,13 +63,17 @@ function showAll(){
     setTimeout(changeAllCardsState, delayTime);
 }
 
+// Запускает таймер игры и делает доступными кнопку начала игры.
 function startTimer(){
+    isAnimation = false;
+    document.getElementById("start-game").disabled = false;
+
     let min = 0;
     let sec = 0;
     startTime = new Date().getTime();
 
     // Обновляем счётчик игры каждую секунду.
-    setInterval(function(){
+    timerHandle = setInterval(function(){
         let endTime = new Date().getTime();
         endTime = endTime - startTime;
 
@@ -81,20 +87,35 @@ function startTimer(){
     }, 1000);
 }
 
+// Начинает игру.
 function startGame(){
+    isAnimation = true;
+    document.getElementById("start-game").disabled = true;
+
     showAll(); // Показываем карточки на 2 секунды для запоминания.
     // Запускаем таймер игры после того,
     // как будут открыты и закрыты карточки (после двух секунд).
     setTimeout(startTimer, delayTime);
 }
 
+// Обнуляет все данные в игре.
+function resetGame(){
+    // Сбрасываем игру, если была она была запущена.
+    if(timerHandle != null){
+        clearInterval(timerHandle);
+        document.getElementById("timer").innerHTML = "00:00";
+    }
+}
+
 document.getElementById("start-game").addEventListener("click", function(){
+    resetGame();
     startGame();
 });
 
-// По клику изменяем состояние карточки:
+// По клику на игровую карточку изменяем её состояние:
 // открытую - скрывам, закрытую - открываем.
 cardGrid.addEventListener("click", function(e){
+    if(isAnimation) return;
     if(e.target.parentElement.classList.contains("card")){
         const card = e.target.parentElement;
         card.classList.toggle("flip");
