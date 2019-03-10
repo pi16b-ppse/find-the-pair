@@ -3,23 +3,21 @@ const images = ['img/cat1.png', 'img/cat2.png',
 'img/cat3.png', 'img/cat4.png', 'img/cat5.png',
 'img/cat6.png', 'img/cat7.png', 'img/cat8.png'];
 let cardCount = 16; // Количество карточек на поле.
-const cardGrid = document.getElementById("card-grid");
 let startTime;
 let timerHandle;
 let delayTime = 2000;
-let isAnimation = false;
 let isStarted = false;
 
 let openCards = []; // Открытые карточки для проверки совпадений.
 let matchesNumber = 0; // Количество совпавших карточек.
 
-initCards();
+initGame();
 
 // Генерирует карточки для игровой сетки.
 function generateCard(number){
     let card = document.createElement('div');
     card.classList.add("card-wrapper");
-    card.innerHTML = '<div class="card flip"><div class="back">' +
+    card.innerHTML = '<div class="card close"><div class="back">' +
     '</div><img class="front" src="'+images[number]+'" ' +
     'alt="'+(number+1)+'"></div></div>';
     return card;
@@ -44,7 +42,13 @@ function initCards(){
         }
     }
 
-    // Добавляем карточки на игровую сетку.
+    // Если игровая сетка была не пустая, удаляем все карточки.
+    let cardGrid = document.getElementById("card-grid");
+    while (cardGrid.firstChild) {
+        cardGrid.removeChild(cardGrid.firstChild);
+    }
+
+    // Добавляем созданные карточки на игровую сетку.
     for(let i = 0;i<cards.length;i++){
         cardGrid.appendChild(cards[i]);
     }
@@ -56,7 +60,7 @@ function initCards(){
 function changeAllCardsState(){
     let cards = document.getElementsByClassName('card');
     for (var i = 0; i < cards.length; i++) {
-        cards[i].classList.toggle("flip");        
+        cards[i].classList.toggle("close");        
     }
 }
 
@@ -98,17 +102,14 @@ function startGame(){
     setTimeout(startTimer, delayTime);
 }
 
-// Обнуляет все данные в игре.
-function resetGame(){
-    // Сбрасываем игру, если была она была запущена.
-    if (timerHandle != null){
-        isStarted = false;
-        while (cardGrid.firstChild) {
-            cardGrid.removeChild(cardGrid.firstChild);
-        }
-        initCards();
-        clearInterval(timerHandle);
-        document.getElementById("timer").innerHTML = "00:00";
+// Инициализация игры.
+function initGame(){
+    isStarted = false;
+    document.getElementById("modal-overlay").style.display = "none";
+    document.getElementById("timer").innerHTML = "00:00";
+    initCards();
+    if (timerHandle != null) {
+        clearInterval(timerHandle); // Обнуляем счётчик времени.
     }
 }
 
@@ -116,8 +117,8 @@ function resetGame(){
 function checkForMatches() {
     setTimeout(function(){
         if (openCards[0].innerHTML != openCards[1].innerHTML){
-            openCards[0].classList.toggle("flip");
-            openCards[1].classList.toggle("flip");
+            openCards[0].classList.toggle("close");
+            openCards[1].classList.toggle("close");
         } else {
             matchesNumber += 2;
         }
@@ -125,26 +126,34 @@ function checkForMatches() {
 
         if (matchesNumber == cardCount){
             clearInterval(timerHandle); // Обнуляем счётчик времени.
+            document.getElementById("modal-overlay").style.display = "flex";
+            document.getElementById('time').innerHTML = 
+            document.getElementById("timer").innerHTML;
+            isStarted = false;
         }
     }, 1000);
 }
 
 document.getElementById("start-game").addEventListener("click", function(){
-    resetGame();
+    initGame();
     startGame();
+});
+
+document.getElementById("play-again").addEventListener("click", function(){
+    initGame();
 });
 
 // По клику на игровую карточку изменяем её состояние:
 // открытую - скрывам, закрытую - открываем.
-cardGrid.addEventListener("click", function(e){
-    if (isAnimation || !isStarted) return;
+document.getElementById("card-grid").addEventListener("click", function(e){
+    if (!isStarted) return;
     // Если карточка закрыта и количество открытых карточек меньше двух,
     // открываем данную карточку.
     if (e.target.parentElement.classList.contains("card") &&
-        e.target.parentElement.classList.contains("flip") &&
+        e.target.parentElement.classList.contains("close") &&
         openCards.length < 2){
         const card = e.target.parentElement;
-        card.classList.toggle("flip");
+        card.classList.toggle("close");
         openCards.push(card);
     }
     if (openCards.length == 2){
