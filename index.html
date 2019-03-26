@@ -12,14 +12,17 @@
     <section id="menu">
     	<button id="restart"></button>
     	<button id="pause"></button>
-    	<p>Время: </p>
+    	<p>Time:
     	<label id="timer">00:00</label>
+        <p>Moves: 
+    	<span id="moves"></span>
     </section>
     <section id="card-grid"></section>
     <section id="modal-overlay">
     	<div id="victory-modal">
             <p class="modal-title">Congratulations!!!</p>
-            <p class="modal-body">You finished in <span id="time">00:00</span>.</p>
+            <p class="modal-body">You finished in <span id="result-moves">20</span> moves.</p>
+            <p class="modal-body">Your time is <span id="result-time">00:00</span>.</p>
             <button id="play-again">Play again!</button>
         </div>
         <div id="start-game-modal">

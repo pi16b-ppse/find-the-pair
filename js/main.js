@@ -10,6 +10,7 @@ let isStarted = false;
 
 let openCards = []; // Открытые карточки для проверки совпадений.
 let matchesNumber = 0; // Количество совпавших карточек.
+let movesCounter = 0; // Количество попыток открыть парные карточки.
 
 showStartGameModal();
 
@@ -117,7 +118,9 @@ function resetGame(){
     isStarted = false;
     openCards = []; // Создаём новый пустой массив с открытыми карточками.
     matchesNumber = 0; // Обнуляем количество совпадений.
+    movesCounter = 0;
     document.getElementById("timer").innerHTML = "00:00";
+    document.getElementById("moves").innerHTML = "0";
     document.getElementById("pause").style.backgroundImage = "url(\"img/play.png\")";
     initCards();
     if (timerHandle != null) {
@@ -135,6 +138,8 @@ function checkForMatches() {
             matchesNumber += 2;
         }
         openCards = [];
+        movesCounter++;
+        document.getElementById("moves").innerHTML = movesCounter;
 
         if (matchesNumber == cardCount){
             clearInterval(timerHandle); // Обнуляем счётчик времени.
@@ -155,8 +160,10 @@ function showEndGameModal(){
     document.getElementById("modal-overlay").style.display = "flex";
     document.getElementById("victory-modal").style.display = "block";
     document.getElementById("start-game-modal").style.display = "none";
-    document.getElementById('time').innerHTML = 
+    document.getElementById('result-time').innerHTML = 
     document.getElementById("timer").innerHTML;
+    document.getElementById('result-moves').innerHTML = 
+    document.getElementById("moves").innerHTML;
 }
 
 document.getElementById("restart").addEventListener("click", function(){
