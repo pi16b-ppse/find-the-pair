@@ -25,6 +25,19 @@ h1 {
     margin: 15px;
 }
 
+p{
+    font-family: 'Garamond', sans-serif;
+    font-size: 26px;
+    color: rgb(35, 15, 35);
+    margin: 7px 0 0 7px;
+}
+
+span{
+font-family: 'Garamond', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+}
+
 #menu {
     width: 435px;
     height: 40px;
@@ -32,23 +45,28 @@ h1 {
     flex-wrap: wrap;
 }
 
-#restart {
-    width: 40%;
+button{
+    width: 40px;
     height: 100%;
     border-radius: 10px;
-    background-color: rgb(60, 20, 60);
-    font-size: 20px;
-    color: white;
     cursor: pointer;
     border: 0;
     outline: none;
 }
 
-#restart:disabled {
-    background-color: rgb(70, 50, 70);
-    color: rgb(221, 221, 221);
+#restart {
+    background-image: url("../img/restart.png");
+    margin: 0 10px 0 0;
+}
+
+#pause{
+  background-image: url("../img/pause.png");
+      margin: 0 10px 10px 0;
+}
+
+#restart:disabled, #pause:disabled {
+    opacity: 0.75;
     cursor: default;
-    outline: none;
 }
 
 #timer {
@@ -159,7 +177,7 @@ h1 {
     color: white;
 }
 
-#modal-title {
+.modal-title {
     font-size: 40px;
     font-weight: bold;
     color: rgb(60, 20, 65);
@@ -169,7 +187,7 @@ h1 {
     padding: 10px;
 }
 
-#modal-body {
+.modal-body {
     font-size: 25px;
     color: rgb(60, 20, 65);
     margin: 0;
