@@ -32,7 +32,7 @@ h1 {
     flex-wrap: wrap;
 }
 
-#start-game {
+#restart {
     width: 40%;
     height: 100%;
     border-radius: 10px;
@@ -40,12 +40,15 @@ h1 {
     font-size: 20px;
     color: white;
     cursor: pointer;
+    border: 0;
+    outline: none;
 }
 
-#start-game:disabled {
+#restart:disabled {
     background-color: rgb(70, 50, 70);
     color: rgb(221, 221, 221);
     cursor: default;
+    outline: none;
 }
 
 #timer {
@@ -123,7 +126,8 @@ h1 {
     padding: 0;
 }
 
-#modal {
+#modal, #start-game-modal {
+    display: block;
     position: relative;
     width: auto;
     height: auto;
@@ -131,6 +135,28 @@ h1 {
     text-align: center;
     background-color: rgb(255, 220, 150);
     border-radius: 10px;
+}
+
+#size-container{
+    margin: 0px 10px 10px 10px;
+    align-items: center;
+}
+
+.grid-size{
+    font-size: 30px;
+    font-weight: bold;
+    width: 90px;
+    border-radius: 10px;
+    border: 0px;
+    background-color: rgb(255, 200, 100);
+    color: rgb(250, 170, 80);
+    cursor: pointer;
+    outline: none;
+}
+
+.selected{
+    background-color: rgb(60, 20, 60);
+    color: white;
 }
 
 #modal-title {
@@ -144,21 +170,22 @@ h1 {
 }
 
 #modal-body {
-    font-size: 20px;
+    font-size: 25px;
     color: rgb(60, 20, 65);
     margin: 0;
     padding: 10px;
 }
 
-#play-again {
-    width: 50%;
+#play-again, #start-game {
+    width: 60%;
     height: 40px;
     border-radius: 10px;
     color: rgb(60, 20, 65);
     background-color: rgb(255, 200, 100);
     border-color: rgb(255, 200, 100);
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
     cursor: pointer;
     margin: 10px;
+    outline: none;
 }

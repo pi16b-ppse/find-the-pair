@@ -11,7 +11,6 @@ let isStarted = false;
 let openCards = []; // Открытые карточки для проверки совпадений.
 let matchesNumber = 0; // Количество совпавших карточек.
 
-initGame();
 
 // Генерирует карточки для игровой сетки.
 function generateCard(number){
@@ -72,7 +71,7 @@ function showAll(){
 // Запускает таймер игры и делает доступными кнопку начала игры.
 function startTimer(){
     isStarted = true;
-    document.getElementById("start-game").disabled = false;
+    document.getElementById("restart").disabled = false;
 
     let min = 0;
     let sec = 0;
@@ -95,17 +94,19 @@ function startTimer(){
 
 // Начинает игру.
 function startGame(){
-    document.getElementById("start-game").disabled = true;
+    document.getElementById("modal-overlay").style.display = "none";
+    document.getElementById("restart").disabled = true;
     showAll(); // Показываем карточки на 2 секунды для запоминания.
     // Запускаем таймер игры после того,
     // как будут открыты и закрыты карточки (после двух секунд).
     setTimeout(startTimer, delayTime);
 }
 
-// Инициализация игры.
-function initGame(){
+// Сброс игры.
+function resetGame(){
     isStarted = false;
-    document.getElementById("modal-overlay").style.display = "none";
+    openCards = []; // Создаём новый пустой массив с открытыми карточками.
+    matchesNumber = 0; // Обнуляем количество совпадений.
     document.getElementById("timer").innerHTML = "00:00";
     initCards();
     if (timerHandle != null) {
@@ -126,21 +127,37 @@ function checkForMatches() {
 
         if (matchesNumber == cardCount){
             clearInterval(timerHandle); // Обнуляем счётчик времени.
-            document.getElementById("modal-overlay").style.display = "flex";
-            document.getElementById('time').innerHTML = 
-            document.getElementById("timer").innerHTML;
             isStarted = false;
+            showEndGameModal();
         }
     }, 1000);
 }
 
-document.getElementById("start-game").addEventListener("click", function(){
-    initGame();
-    startGame();
+function showStartGameModal(){
+    resetGame();
+    document.getElementById("modal-overlay").style.display = "flex";
+    document.getElementById("start-game-modal").style.display = "block";
+    document.getElementById("victory-modal").style.display = "none";
+}
+
+function showEndGameModal(){
+    document.getElementById("modal-overlay").style.display = "flex";
+    document.getElementById("victory-modal").style.display = "block";
+    document.getElementById("start-game-modal").style.display = "none";
+    document.getElementById('time').innerHTML = 
+    document.getElementById("timer").innerHTML;
+}
+
+document.getElementById("restart").addEventListener("click", function(){
+    showStartGameModal();
 });
 
 document.getElementById("play-again").addEventListener("click", function(){
-    initGame();
+    showStartGameModal();
+});
+
+document.getElementById("start-game").addEventListener("click", function(){
+    startGame();
 });
 
 // По клику на игровую карточку изменяем её состояние:

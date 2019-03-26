@@ -10,15 +10,23 @@
         <h1>Find The Pair</h1>
     </header>
     <section id="menu">
-    	<button id="start-game">Start game</button>
+    	<button id="restart">Restart game</button>
     	<label id="timer">00:00</label>
     </section>
     <section id="card-grid"></section>
     <section id="modal-overlay">
-    	<div id="modal">
+    	<div id="victory-modal">
             <p id="modal-title">Congratulations!!!</p>
-            <p id="modal-body">You finished in <span id="time">00:00</span>.
+            <p id="modal-body">You finished in <span id="time">00:00</span>.</p>
             <button id="play-again">Play again!</button>
+        </div>
+        <div id="start-game-modal">
+            <p id="modal-title">Find The Pair</p>
+        	<p id="modal-body">How many cards?</p>
+        	<div id="size-container">
+                <button class="grid-size selected" id="4-by-4-size">4&#10008;4</button>
+            </div>
+            <button id="start-game">Start game</button>
         </div>
     </section>
 </div>
