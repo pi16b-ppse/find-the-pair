@@ -202,10 +202,22 @@ document.getElementById("start-game").addEventListener("click", function(){
     startGame();
 });
 
-function setSize(count){
-    cardCount = count;
-    console.log(cardCount);
-}
+// Выделяет нажатую кнопку с размером игрового поля.
+document.getElementById("size-container").addEventListener("click",
+    function(e){
+    if(e.target.classList.contains("grid-size")){
+        let elements = document.getElementsByClassName("grid-size");
+        // Убираем подсветку ранее выделенной кнопки.
+        for(let i = 0; i < elements.length; i++){
+            if(elements[i].classList.contains("selected")){
+                elements[i].classList.remove("selected");
+            }
+        }
+        // Подсвечиваем выбранную кнопку.
+        e.target.classList.add("selected");
+    }
+});
+
 
 // По клику на игровую карточку изменяем её состояние:
 // открытую - скрывам, закрытую - открываем.
