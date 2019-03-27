@@ -2,12 +2,11 @@
 const images = ['img/cat1.png', 'img/cat2.png',
 'img/cat3.png', 'img/cat4.png', 'img/cat5.png',
 'img/cat6.png', 'img/cat7.png', 'img/cat8.png'];
-let cardCount = 16; // Количество карточек на поле.
-
 let timerHandle;
 let delayTime = 2000;
 let isStarted = false;
 
+let cardCount; // Количество карточек на поле.
 let openCards = []; // Открытые карточки для проверки совпадений.
 let matchesNumber = 0; // Количество совпавших карточек.
 let movesCounter = 0; // Количество попыток открыть парные карточки.
@@ -26,13 +25,23 @@ function generateCard(number){
 
 // Создаёт пары карточек и добавляет их на игровую сетку.
 function initCards(){
+    // Получаем размер игровой сетки и рассчитываем общее количество карточек.
+    let gridSizeElements = document.getElementsByClassName("grid-size");
+    let row, column = 0;
+    for (let i = 0; i < gridSizeElements.length; i++) {
+        if(gridSizeElements[i].classList.contains("selected")){
+            row = Number.parseInt(gridSizeElements[i].innerHTML[0]);
+            column = Number.parseInt(gridSizeElements[i].innerHTML[2]);
+            cardCount = row * column;
+        }
+    }   
+
     // Создаём массив последовательно идущих попарных картинок.
     let initialCards = [];
     for(let i = 0; i < cardCount / 2; i++){
         initialCards.push(generateCard(i));
         initialCards.push(generateCard(i));
     }
-
     // Перемешиваем картинки.
     let cards = [];
     while(initialCards.length > 0){
@@ -52,6 +61,20 @@ function initCards(){
     // Добавляем созданные карточки на игровую сетку.
     for(let i = 0;i<cards.length;i++){
         cardGrid.appendChild(cards[i]);
+    }
+
+    // Рассчитываем высоту и длину карточек.
+    // Учитываем внутренний отступ у игровой сетки (card-grid.style.padding).
+    let padding = 15 * 2; // 15px * 2 отступа (слева/справа или сверху/снизу).
+    // Учитываем внешний отступ каждой карточки.
+    // (margin = 5px * (column - 1) всего расстояний между карточками) 
+    let margin = 5 * (column - 1);
+    let indents = padding + margin;
+
+    let cardWrappers = document.getElementsByClassName("card-wrapper");
+    for (var i = 0; i < cardWrappers.length; i++) {
+        cardWrappers[i].style.width = "calc((100% - "+indents+"px) / "+column+")";
+        cardWrappers[i].style.height = "calc((100% - "+indents+"px) / "+row+")";
     }
 }
 
@@ -175,8 +198,14 @@ document.getElementById("play-again").addEventListener("click", function(){
 });
 
 document.getElementById("start-game").addEventListener("click", function(){
+    initCards(); /// удалить из метода resetgame
     startGame();
 });
+
+function setSize(count){
+    cardCount = count;
+    console.log(cardCount);
+}
 
 // По клику на игровую карточку изменяем её состояние:
 // открытую - скрывам, закрытую - открываем.

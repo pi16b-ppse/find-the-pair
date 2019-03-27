@@ -8,6 +8,7 @@ body {
 
 body {
     background: url('../img/background.png');
+    background-attachment: fixed;
     background-size: 100%;
 }
 
@@ -102,10 +103,8 @@ button{
 .card-wrapper {
     perspective: 1000px;
     margin: 5px;
-    /* Вычисляем высоту и длину карточек. (15 + 15) px для card-grid.padding 
-    и (5 + 5 + 5) для margins, делим на 4 карточки.*/
-    width: calc((100% - 45px) / 4);
-    height: calc((100% - 45px) / 4);
+    /* Вsсота и длина карточек будет вычисляться
+    в зависимости от размера игровой сетки.*/
     border-radius: 10px;
 }
 
