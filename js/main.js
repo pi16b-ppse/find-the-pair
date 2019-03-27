@@ -1,7 +1,9 @@
  /* Объявляем картинки для карточек. */
 const images = ['img/cat1.png', 'img/cat2.png',
 'img/cat3.png', 'img/cat4.png', 'img/cat5.png',
-'img/cat6.png', 'img/cat7.png', 'img/cat8.png'];
+'img/cat6.png', 'img/cat7.png', 'img/cat8.png',
+'img/cat9.png', 'img/cat10.png', 'img/cat11.png',
+'img/cat12.png', 'img/cat13.png', 'img/cat14.png', 'img/cat15.png'];
 let timerHandle;
 let delayTime = 2000;
 let isStarted = false;
