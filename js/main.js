@@ -3,6 +3,8 @@ const images = ['img/cat1.png', 'img/cat2.png',
 'img/cat3.png', 'img/cat4.png', 'img/cat5.png',
 'img/cat6.png', 'img/cat7.png', 'img/cat8.png'];
 let cardCount = 16; // Количество карточек на поле.
+let row = 4;
+let column = 4;
 let startTime;
 let timerHandle;
 let delayTime = 2000;
@@ -51,6 +53,21 @@ function initCards(){
     // Добавляем созданные карточки на игровую сетку.
     for(let i = 0;i<cards.length;i++){
         cardGrid.appendChild(cards[i]);
+    }
+
+    // Рассчитываем высоту и длину карточек.
+    // Учитываем внутренний отступ у игровой сетки (card-grid.style.padding).
+    let padding = 15 * 2; // 15px * 2 отступа (слева/справа или сверху/снизу).
+    // Учитываем внешний отступ каждой карточки.
+    // (margin = 5px * (column - 1) расстояний между карточками) 
+    let margin = 5 * (column - 1);
+    let indents = padding + margin;
+
+    let cardWrappers = document.getElementsByClassName("card-wrapper");
+    for (var i = 0; i < cardWrappers.length; i++) {
+        cardWrappers[i].style.width = "calc((100% - "+indents+"px) / "
+        +column+")";
+        cardWrappers[i].style.height = "calc((100% - "+indents+"px) / "+row+")";
     }
 }
 
