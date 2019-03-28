@@ -23,7 +23,8 @@ function generateCard(number){
     card.classList.add("card-wrapper");
     card.innerHTML = '<div class="card close"><div class="back">' +
     '</div><img class="front" src="'+images[number]+'" ' +
-    'alt="'+(number+1)+'"></div></div>';
+    'alt="'+(number+1)+'" style="user-select: none; ' +
+    '-webkit-user-drag: none;"></div></div>';
     return card;
 }
 
