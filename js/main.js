@@ -31,17 +31,17 @@ function generateCard(number){
 function initCards(){
     // Создаём массив последовательно идущих попарных картинок.
     let initialCards = [];
-    for(let i = 0; i < cardCount / 2; i++){
+    for (let i = 0; i < cardCount / 2; i++){
         initialCards.push(generateCard(i));
         initialCards.push(generateCard(i));
     }
 
     // Перемешиваем картинки.
     let cards = [];
-    while(initialCards.length > 0){
+    while (initialCards.length > 0){
         let ranNum = Math.floor(Math.random() * initialCards.length);
         cards.push(initialCards[ranNum]);
-        if(ranNum > -1){
+        if (ranNum > -1){
             initialCards.splice(ranNum, 1);
         }
     }
@@ -53,7 +53,7 @@ function initCards(){
     }
 
     // Добавляем созданные карточки на игровую сетку.
-    for(let i = 0;i<cards.length;i++){
+    for (let i = 0; i < cards.length; i++){
         cardGrid.appendChild(cards[i]);
     }
 
@@ -61,13 +61,14 @@ function initCards(){
     // Учитываем внутренний отступ у игровой сетки (card-grid.style.padding).
     let padding = 15 * 2; // 15px * 2 отступа (слева/справа или сверху/снизу).
     // Учитываем внешний отступ каждой карточки.
-    // (margin = 5px * (column - 1) всего расстояний между карточками) 
+    // (margin = 5px * (column - 1) расстояний между карточками) 
     let margin = 5 * (column - 1);
     let indents = padding + margin;
 
     let cardWrappers = document.getElementsByClassName("card-wrapper");
     for (var i = 0; i < cardWrappers.length; i++) {
-        cardWrappers[i].style.width = "calc((100% - "+indents+"px) / "+column+")";
+        cardWrappers[i].style.width = "calc((100% - "+indents+"px) / "
+        +column+")";
         cardWrappers[i].style.height = "calc((100% - "+indents+"px) / "+row+")";
     }
 }
