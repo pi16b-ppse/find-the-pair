@@ -25,6 +25,19 @@ h1 {
     margin: 15px;
 }
 
+p {
+    font-family: 'Garamond', sans-serif;
+    font-size: 30px;
+    color: rgb(35, 15, 35);
+    margin: 5px 0 0 5px;
+}
+
+span {
+    font-family: 'Garamond', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+}
+
 #menu {
     width: 435px;
     height: 40px;
@@ -32,19 +45,27 @@ h1 {
     flex-wrap: wrap;
 }
 
-#start-game {
-    width: 40%;
+button{
+    width: 40px;
     height: 100%;
     border-radius: 10px;
-    background-color: rgb(60, 20, 60);
-    font-size: 20px;
-    color: white;
     cursor: pointer;
+    border: 0;
+    outline: none;
 }
 
-#start-game:disabled {
-    background-color: rgb(70, 50, 70);
-    color: rgb(221, 221, 221);
+#restart {
+    background-image: url("../img/restart.png");
+    margin: 0 10px 0 0;
+}
+
+#pause{
+  background-image: url("../img/pause.png");
+      margin: 0 10px 10px 0;
+}
+
+#restart:disabled, #pause:disabled {
+    opacity: 0.75;
     cursor: default;
 }
 
@@ -123,7 +144,8 @@ h1 {
     padding: 0;
 }
 
-#modal {
+#victory-modal, #start-game-modal {
+    display: block;
     position: relative;
     width: auto;
     height: auto;
@@ -133,7 +155,29 @@ h1 {
     border-radius: 10px;
 }
 
-#modal-title {
+#size-container{
+    margin: 0px 10px 10px 10px;
+    align-items: center;
+}
+
+.grid-size{
+    font-size: 30px;
+    font-weight: bold;
+    width: 90px;
+    border-radius: 10px;
+    border: 0px;
+    background-color: rgb(255, 200, 100);
+    color: rgb(250, 170, 80);
+    cursor: pointer;
+    outline: none;
+}
+
+.selected{
+    background-color: rgb(60, 20, 60);
+    color: white;
+}
+
+.modal-title {
     font-size: 40px;
     font-weight: bold;
     color: rgb(60, 20, 65);
@@ -143,22 +187,23 @@ h1 {
     padding: 10px;
 }
 
-#modal-body {
-    font-size: 20px;
+.modal-body {
+    font-size: 25px;
     color: rgb(60, 20, 65);
     margin: 0;
     padding: 10px;
 }
 
-#play-again {
-    width: 50%;
+#play-again, #start-game {
+    width: 60%;
     height: 40px;
     border-radius: 10px;
     color: rgb(60, 20, 65);
     background-color: rgb(255, 200, 100);
     border-color: rgb(255, 200, 100);
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
     cursor: pointer;
-    margin: 10px;
+    margin: 10px 10px 15px 10px;
+    outline: none;
 }
