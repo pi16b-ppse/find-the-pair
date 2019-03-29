@@ -17,38 +17,37 @@
 }
 
 h1 {
-    font-size: 4em;
     color: rgb(35, 15, 35);
-    margin: 15px;
+    margin: 5px;
 }
 
 p {
-    font-size: 2em;
     color: rgb(35, 15, 35);
-    margin: 5px 0 0 5px;
+    margin: 10px 0 0 10px;
 }
 
 span {
-    font-size: 1em;
     font-weight: bold;
     margin: 5px;
 }
 
 #menu {
-    width: 90vmin;
-    height: 50px;
     display: flex;
+    margin: 0 10px 0 10px;
 }
 
 button{
     width: 50px;
     height: 50px;
     background-size: contain;
+    background-color: rgba(0,0,0,0);
+    background-repeat: no-repeat;
     margin: 0 10px 0 0;
     border-radius: 10px;
     cursor: pointer;
     border: 0;
     outline: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 #restart {
@@ -57,6 +56,7 @@ button{
 
 #pause{
     background-image: url("../img/pause.png");
+    margin-right: 0;
 }
 
 #restart:disabled, #pause:disabled {
@@ -74,6 +74,7 @@ button{
 }
 
 #card-grid {
+    max-height: 90%;
     width: 90vmin;
     height: 90vmin;
     background: linear-gradient(160deg, #cc374f 0%, #832750 100%);
@@ -83,6 +84,8 @@ button{
     box-shadow: 10px 10px 20px 0 rgba(42, 32, 45, 0.7);
     display: flex;
     flex-wrap: wrap;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 .card {
@@ -106,6 +109,7 @@ button{
     height: 100%;
     border-radius: 10px;
     position: absolute; /*Слои накладываются друг на друга.*/
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .front {
@@ -153,9 +157,10 @@ button{
 }
 
 .grid-size{
-    font-size: 2em;
+    font-size: 2rem;
     font-weight: bold;
     width: 90px;
+    height: auto;
     border-radius: 10px;
     border: 0px;
     margin: 5px;
@@ -171,7 +176,7 @@ button{
 }
 
 .modal-title {
-    font-size: 3em;
+    font-size: 2rem;
     font-weight: bold;
     color: rgb(60, 20, 65);
     background-color: rgb(255, 200, 100);
@@ -181,7 +186,7 @@ button{
 }
 
 .modal-body {
-    font-size: 2em;
+    font-size: 1.5rem;
     color: rgb(60, 20, 65);
     margin: 0;
     padding: 10px;
@@ -189,14 +194,99 @@ button{
 
 #play-again, #start-game {
     width: 80%;
-    height: 50px;
+    height: auto;
     border-radius: 10px;
     color: rgb(60, 20, 65);
     background-color: rgb(255, 200, 100);
     border-color: rgb(255, 200, 100);
-    font-size: 3em;
+    font-size: 2.5rem;
     font-weight: bold;
     cursor: pointer;
     margin: 10px;
     outline: none;
+}
+
+/* Portrait tablets and small/medium desktops */
+@media (min-width: 992px) {
+    h1 {
+        font-size: 3.5rem;
+    }
+
+    button{
+        width: 50px;
+        height: 50px;
+    }
+
+    #menu {
+        font-size: 2rem;
+    }
+
+     .modal-body {
+        font-size: 2rem;
+    }
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    p {
+        font-size: 2rem;
+        margin: 2px 0 0 10px;
+    }
+
+    button{
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+    h1, .modal-body {
+        font-size: 2rem;
+    }
+
+    #menu{
+        font-size: 1.2rem;
+    }
+
+    p {
+        margin: 7px 0 0 10px;
+    }
+
+    button{
+        width: 30px;
+        height: 30px;
+    }
+
+    #card-grid {
+        width: 85vmin;
+    }
+
+    #play-again, #start-game {
+        width: 80%;
+        height: auto;
+    }
+}
+
+/* Landscape phones and smaller */
+@media (max-width: 480px) {
+    #victory-modal, #start-game-modal {
+        width: 90vmin;
+    }
+
+    button{
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Target device in portrait mode */
+@media all and (orientation: portrait) {
+    h1 {
+        margin-bottom: 20px;
+    }
 }
