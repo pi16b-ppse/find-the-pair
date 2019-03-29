@@ -4,9 +4,6 @@ const images = ['img/cat1.png', 'img/cat2.png',
 'img/cat6.png', 'img/cat7.png', 'img/cat8.png',
 'img/cat9.png', 'img/cat10.png', 'img/cat11.png',
 'img/cat12.png', 'img/cat13.png', 'img/cat14.png', 'img/cat15.png'];
-let cardCount = 16; // Количество карточек на поле.
-let row = 4;
-let column = 4;
 let timerHandle;
 let delayTime = 2000;
 let isStarted = false;
@@ -30,16 +27,27 @@ function generateCard(number){
 
 // Создаёт пары карточек и добавляет их на игровую сетку.
 function initCards(){
+    // Получаем размер игровой сетки и рассчитываем общее количество карточек.
+    let gridSizeElements = document.getElementsByClassName("grid-size");
+    let row, column = 0;
+    for (let i = 0; i < gridSizeElements.length; i++) {
+        if(gridSizeElements[i].classList.contains("selected")){
+            row = Number.parseInt(gridSizeElements[i].innerHTML[0]);
+            column = Number.parseInt(gridSizeElements[i].innerHTML[2]);
+            cardCount = row * column;
+        }
+    } 
+
     // Создаём массив последовательно идущих попарных картинок.
     let initialCards = [];
-    for(let i = 0; i < cardCount / 2; i++){
+    for (let i = 0; i < cardCount / 2; i++){
         initialCards.push(generateCard(i));
         initialCards.push(generateCard(i));
     }
 
     // Перемешиваем картинки.
     let cards = [];
-    while(initialCards.length > 0){
+    while (initialCards.length > 0){
         let ranNum = Math.floor(Math.random() * initialCards.length);
         cards.push(initialCards[ranNum]);
         if(ranNum > -1){
@@ -54,7 +62,7 @@ function initCards(){
     }
 
     // Добавляем созданные карточки на игровую сетку.
-    for(let i = 0;i<cards.length;i++){
+    for(let i = 0; i < cards.length; i++){
         cardGrid.appendChild(cards[i]);
     }
 
@@ -194,7 +202,24 @@ document.getElementById("play-again").addEventListener("click", function(){
 });
 
 document.getElementById("start-game").addEventListener("click", function(){
+    initCards();
     startGame();
+});
+
+// Выделяет нажатую кнопку с размером игрового поля.
+document.getElementById("size-container").addEventListener("click",
+    function(e){
+    if(e.target.classList.contains("grid-size")){
+        let elements = document.getElementsByClassName("grid-size");
+        // Убираем подсветку ранее выделенной кнопки.
+        for(let i = 0; i < elements.length; i++){
+            if(elements[i].classList.contains("selected")){
+                elements[i].classList.remove("selected");
+            }
+        }
+        // Подсвечиваем выбранную кнопку.
+        e.target.classList.add("selected");
+    }
 });
 
 // По клику на игровую карточку изменяем её состояние:

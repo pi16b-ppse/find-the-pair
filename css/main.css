@@ -144,7 +144,7 @@ button{
 #victory-modal, #start-game-modal {
     display: block;
     position: relative;
-    width: auto;
+    width: 60vmin;
     height: auto;
     text-align: center;
     background-color: rgb(255, 220, 150);
