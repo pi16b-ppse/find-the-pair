@@ -144,7 +144,7 @@ button{
 #victory-modal, #start-game-modal {
     display: block;
     position: relative;
-    width: 60vmin;
+    width: auto;
     height: auto;
     text-align: center;
     background-color: rgb(255, 220, 150);
@@ -217,23 +217,18 @@ button{
         height: 50px;
     }
 
-    #menu {
-        font-size: 2rem;
-    }
-
-     .modal-body {
+    #menu, .modal-body {
         font-size: 2rem;
     }
 }
 
 /* Portrait tablets and small desktops */
 @media (min-width: 768px) and (max-width: 991px) {
-    h1 {
+    h1, #menu {
         font-size: 2rem;
     }
 
     p {
-        font-size: 2rem;
         margin: 2px 0 0 10px;
     }
 
@@ -264,11 +259,6 @@ button{
 
     #card-grid {
         width: 85vmin;
-    }
-
-    #play-again, #start-game {
-        width: 80%;
-        height: auto;
     }
 }
 
