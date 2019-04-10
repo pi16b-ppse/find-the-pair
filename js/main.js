@@ -1,3 +1,18 @@
+// Объект, представляющий меню игры.
+var result = { min: "00", sec: "00", moves: 0 }
+
+// Объект добавляется в экземпляр Vue.
+var menuVm = new Vue({
+    el: "#menu",
+    data: result
+})
+
+// Объект добавляется в экземпляр Vue.
+var victoryModalVm = new Vue({
+    el: "#victory-modal",
+    data: result
+})
+
  /* Объявляем картинки для карточек. */
 const images = ['img/cat1.png', 'img/cat2.png',
 'img/cat3.png', 'img/cat4.png', 'img/cat5.png',
@@ -10,7 +25,6 @@ let isStarted = false;
 
 let openCards = []; // Открытые карточки для проверки совпадений.
 let matchesNumber = 0; // Количество совпавших карточек.
-let movesCounter = 0; // Количество попыток открыть парные карточки.
 
 showStartGameModal();
 
@@ -114,11 +128,10 @@ function startTimer(){
                 min++;
                 sec = 0;
             }
+            result.min = (min < 10) ? "0" + min : min;
+            result.sec = (sec < 10) ? "0" + sec : sec;
     
-            let minstr = (min < 10) ? "0" + min : min;
-            sec = (sec < 10) ? "0" + sec : sec;
-    
-            document.getElementById("timer").innerHTML = minstr + ":" + sec;
+            //document.getElementById("timer").innerHTML = minstr + ":" + sec;
         }
     }, 1000);
 }
@@ -145,9 +158,11 @@ function resetGame(){
     isStarted = false;
     openCards = []; // Создаём новый пустой массив с открытыми карточками.
     matchesNumber = 0; // Обнуляем количество совпадений.
-    movesCounter = 0;
-    document.getElementById("timer").innerHTML = "00:00";
-    document.getElementById("moves").innerHTML = "0";
+    result.moves = 0;
+    result.min = "00";
+    result.sec = "00";
+    //document.getElementById("timer").innerHTML = "00:00";
+    //document.getElementById("moves").innerHTML = "0";
     document.getElementById("pause").style.backgroundImage = "url(\"img/play.png\")";
     initCards();
     if (timerHandle != null) {
@@ -165,8 +180,8 @@ function checkForMatches() {
             matchesNumber += 2;
         }
         openCards = [];
-        movesCounter++;
-        document.getElementById("moves").innerHTML = movesCounter;
+        result.moves++;
+        //document.getElementById("moves").innerHTML = movesCounter;
 
         if (matchesNumber == cardCount){
             clearInterval(timerHandle); // Обнуляем счётчик времени.
@@ -187,10 +202,10 @@ function showEndGameModal(){
     document.getElementById("modal-overlay").style.display = "flex";
     document.getElementById("victory-modal").style.display = "block";
     document.getElementById("start-game-modal").style.display = "none";
-    document.getElementById('result-time').innerHTML = 
-    document.getElementById("timer").innerHTML;
-    document.getElementById('result-moves').innerHTML = 
-    document.getElementById("moves").innerHTML;
+    //document.getElementById('result-time').innerHTML = 
+    //document.getElementById("timer").innerHTML;
+    //document.getElementById('result-moves').innerHTML = 
+    //document.getElementById("moves").innerHTML;
 }
 
 document.getElementById("restart").addEventListener("click", function(){
