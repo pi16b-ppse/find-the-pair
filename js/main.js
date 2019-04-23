@@ -1,30 +1,31 @@
-// Объект, представляющий меню игры.
-var result = { min: "00", sec: "00", moves: 0 }
-
-// Объект добавляется в экземпляр Vue.
-var menuVm = new Vue({
-    el: "#menu",
-    data: result
-})
-
-// Объект добавляется в экземпляр Vue.
-var victoryModalVm = new Vue({
-    el: "#victory-modal",
-    data: result
-})
-
  /* Объявляем картинки для карточек. */
 const images = ['img/cat1.png', 'img/cat2.png',
 'img/cat3.png', 'img/cat4.png', 'img/cat5.png',
 'img/cat6.png', 'img/cat7.png', 'img/cat8.png',
 'img/cat9.png', 'img/cat10.png', 'img/cat11.png',
 'img/cat12.png', 'img/cat13.png', 'img/cat14.png', 'img/cat15.png'];
-let timerHandle;
-let delayTime = 2000;
-let isStarted = false;
 
-let openCards = []; // Открытые карточки для проверки совпадений.
-let matchesNumber = 0; // Количество совпавших карточек.
+let game = {
+    cardCount: 0,
+    isStarted: false,
+    openCards: [], // Открытые карточки для проверки совпадений.
+    matchesNumber: 0, // Количество совпавших карточек.
+    result: { min: "00", sec: "00", moves: 0 },
+    timerHandle: undefined,
+    delayTime: 2000
+}
+
+// Объект добавляется в экземпляр Vue.
+let menuVm = new Vue({
+    el: "#menu",
+    data: game.result
+})
+
+// Объект добавляется в экземпляр Vue.
+let victoryModalVm = new Vue({
+    el: "#victory-modal",
+    data: game.result
+})
 
 showStartGameModal();
 
@@ -48,13 +49,13 @@ function initCards(){
         if(gridSizeElements[i].classList.contains("selected")){
             row = Number.parseInt(gridSizeElements[i].innerHTML[0]);
             column = Number.parseInt(gridSizeElements[i].innerHTML[2]);
-            cardCount = row * column;
+            game.cardCount = row * column;
         }
     } 
 
     // Создаём массив последовательно идущих попарных картинок.
     let initialCards = [];
-    for (let i = 0; i < cardCount / 2; i++){
+    for (let i = 0; i < game.cardCount / 2; i++){
         initialCards.push(generateCard(i));
         initialCards.push(generateCard(i));
     }
@@ -108,28 +109,28 @@ function changeAllCardsState(){
 
 function showAll(){
     changeAllCardsState();
-    setTimeout(changeAllCardsState, delayTime);
+    setTimeout(changeAllCardsState, game.delayTime);
 }
 let isPaused = false;
 
 // Запускает таймер игры и делает доступными кнопку начала игры.
 function startTimer(){
-    isStarted = true;
+    game.isStarted = true;
     document.getElementById("restart").disabled = false;
     document.getElementById("pause").disabled = false;
     document.getElementById("pause").style.backgroundImage = "url(\"img/pause.png\")";
 
     let sec = 0;
     let min = 0;
-    timerHandle = setInterval(function() {
-        if (isStarted) {
+    game.timerHandle = setInterval(function() {
+        if (game.isStarted) {
             sec++;
             if (sec > 60){
                 min++;
                 sec = 0;
             }
-            result.min = (min < 10) ? "0" + min : min;
-            result.sec = (sec < 10) ? "0" + sec : sec;
+            game.result.min = (min < 10) ? "0" + min : min;
+            game.result.sec = (sec < 10) ? "0" + sec : sec;
     
             //document.getElementById("timer").innerHTML = minstr + ":" + sec;
         }
@@ -137,8 +138,8 @@ function startTimer(){
 }
 
 document.getElementById("pause").addEventListener("click", function(){
-    isStarted = !isStarted;
-    document.getElementById("pause").style.backgroundImage = isStarted ? 
+    game.isStarted = !game.isStarted;
+    document.getElementById("pause").style.backgroundImage = game.isStarted ? 
     "url(\"img/pause.png\")" : "url(\"img/play.png\")";
 });
 
@@ -150,42 +151,42 @@ function startGame(){
     showAll(); // Показываем карточки на 2 секунды для запоминания.
     // Запускаем таймер игры после того,
     // как будут открыты и закрыты карточки (после двух секунд).
-    setTimeout(startTimer, delayTime);
+    setTimeout(startTimer, game.delayTime);
 }
 
 // Сброс игры.
 function resetGame(){
-    isStarted = false;
-    openCards = []; // Создаём новый пустой массив с открытыми карточками.
-    matchesNumber = 0; // Обнуляем количество совпадений.
-    result.moves = 0;
-    result.min = "00";
-    result.sec = "00";
+    game.isStarted = false;
+    game.openCards = []; // Создаём новый пустой массив с открытыми карточками.
+    game.matchesNumber = 0; // Обнуляем количество совпадений.
+    game.result.moves = 0;
+    game.result.min = "00";
+    game.result.sec = "00";
     //document.getElementById("timer").innerHTML = "00:00";
     //document.getElementById("moves").innerHTML = "0";
     document.getElementById("pause").style.backgroundImage = "url(\"img/play.png\")";
     initCards();
-    if (timerHandle != null) {
-        clearInterval(timerHandle); // Обнуляем счётчик времени.
+    if (game.timerHandle != null) {
+        clearInterval(game.timerHandle); // Обнуляем счётчик времени.
     }
 }
 
 // Проверяет, совпадают ли открытые карточки.
 function checkForMatches() {
     setTimeout(function(){
-        if (openCards[0].innerHTML != openCards[1].innerHTML){
-            openCards[0].classList.toggle("close");
-            openCards[1].classList.toggle("close");
+        if (game.openCards[0].innerHTML != game.openCards[1].innerHTML){
+            game.openCards[0].classList.toggle("close");
+            game.openCards[1].classList.toggle("close");
         } else {
-            matchesNumber += 2;
+            game.matchesNumber += 2;
         }
-        openCards = [];
-        result.moves++;
+        game.openCards = [];
+        game.result.moves++;
         //document.getElementById("moves").innerHTML = movesCounter;
 
-        if (matchesNumber == cardCount){
-            clearInterval(timerHandle); // Обнуляем счётчик времени.
-            isStarted = false;
+        if (game.matchesNumber == game.cardCount){
+            clearInterval(game.timerHandle); // Обнуляем счётчик времени.
+            game.isStarted = false;
             showEndGameModal();
         }
     }, 1000);
@@ -240,17 +241,17 @@ document.getElementById("size-container").addEventListener("click",
 // По клику на игровую карточку изменяем её состояние:
 // открытую - скрывам, закрытую - открываем.
 document.getElementById("card-grid").addEventListener("click", function(e){
-    if (!isStarted) return;
+    if (!game.isStarted) return;
     // Если карточка закрыта и количество открытых карточек меньше двух,
     // открываем данную карточку.
     if (e.target.parentElement.classList.contains("card") &&
         e.target.parentElement.classList.contains("close") &&
-        openCards.length < 2){
+        game.openCards.length < 2){
         const card = e.target.parentElement;
         card.classList.toggle("close");
-        openCards.push(card);
+        game.openCards.push(card);
     }
-    if (openCards.length == 2){
+    if (game.openCards.length == 2){
         checkForMatches();
     }
 });
