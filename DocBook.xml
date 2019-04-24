@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article>
+    <articleinfo>
+        <title>Документация к проекту Find The Pair</title>
+        <authorgroup>
+            <author>
+                <firstname>Влада</firstname>
+                <surname>Мамутова</surname>
+            </author>
+        </authorgroup>
+    </articleinfo>
+    <section>
+        <title>О проекте</title>
+        <para>Игра "Найди пару" помогает развить способность к запоминанию, внимательность и
+            сообразительность.</para>
+        <para>Игра доступна онлайн: <ulink  url='https://vladamamutova.github.io/find-the-pair/'>
+                https://vladamamutova.github.io/find-the-pair/</ulink>.</para>
+    </section>
+    <section>
+        <title>Об игре</title>
+        <para> Игра состоит из чётного количества карточек, под которыми находятся пары одинаковых
+            картинок. При запуске игры поле с карточками будет показано на несколько секунд и
+            закрыто снова. Постарайся запомнить как можно больше картинок! Кликай по карточкам,
+            запоминай, что изображено с обратной стороны, и ищи пары. 
+            Цель игры заключается в том, чтобы за минимальное время и минимальное количество
+            ошибок найти все одинаковые карточки на игровом поле. 
+        </para>
+    </section>
+    <section>
+        <title>Особенности проекта</title>
+        <itemizedlist>
+        <listitem>Возможность выбора количества картинок для повышения сложности игры;</listitem>
+            <listitem>Открытие картинок на 2 секунды перед началом игры для их лучшего запоминания;</listitem>
+            <listitem>Возможность поставить игру на паузу и собраться с мыслями;</listitem>
+            <listitem>Отображение игрового счёта в виде времени прохождения игры и количества сделанный
+            шагов;</listitem>
+            <listitem>Яркие картинки для создания в памяти наиболее ярких зрительных образов;</listitem>
+            <listitem>Адаптивный дизайн для игры как с мобильного устройства, так и с десктопа.</listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title>Детали реализации</title>
+        <para>Особенности реализации отдельного функционала представлены ниже:</para>
+        <section>
+            <title>Обновление таймера игры</title>
+            <para>Для создания счётчика времени запускается функция setInterval, в котором каждую
+                секунду проверяется, не поставлена ли игра на паузу, и изменяются значения минут и
+                секунд, которые с помощью экзампляра Vue автоматически обновляют эти данные на
+                странице браузера.</para>
+            <programlisting><![CDATA[
+    let sec = 0;
+    let min = 0;
+    game.timerHandle = setInterval(function() {
+        if (game.isStarted) {
+            sec++;
+            if (sec > 60){
+                min++;
+                sec = 0;
+            }
+            game.result.min = (min < 10) ? "0" + min : min;
+            game.result.sec = (sec < 10) ? "0" + sec : sec;
+        }
+    }, 1000);
+                ]]></programlisting>
+        </section>
+        <section>
+            <title>Обработка клика по карточке</title>
+            <para>Клик по карточке обрабатывается, если игра не стоит на паузе. В этом случае
+                карточка открывается и добавляется в массив открытых карт. Когда число открытых
+                карточек достигает двух, проверяем картинки на совпадение. </para>
+            <programlisting><![CDATA[
+    if (!game.isStarted) return;
+    if (e.target.parentElement.classList.contains("card") &&
+        e.target.parentElement.classList.contains("close") &&
+        game.openCards.length < 2){
+        const card = e.target.parentElement;
+        card.classList.toggle("close");
+        game.openCards.push(card);
+    }
+    if (game.openCards.length == 2){
+        checkForMatches();
+     }
+                ]]></programlisting>
+        </section>
+        <section>
+            <title>Проверка на совпадение открытых карточек</title>
+            <para>Карточки сравниваются по содержимому внутри этих элементов. При успешном сравнении
+                увеличивается число совпадений, при неуспешном - карточки закрываются.</para>
+            <programlisting><![CDATA[
+    if (game.openCards[0].innerHTML != game.openCards[1].innerHTML){
+        game.openCards[0].classList.toggle("close");
+        game.openCards[1].classList.toggle("close");
+    } else {
+        game.matchesNumber += 2;
+    }
+    game.openCards = [];
+    game.result.moves++;
+                ]]></programlisting>
+
+        </section>
+        <section>
+            <title>Обработка окончания игры</title>
+            <para>Когда все пары найдены (количество совпадений равно числу карточек), останавливаем
+                игру, обнуляем счётчик времени, показываем поздравление и достигнутый
+                результат.</para>
+            <programlisting><![CDATA[
+    if (game.matchesNumber == game.cardCount){
+        clearInterval(game.timerHandle);
+        game.isStarted = false;
+        showEndGameModal();
+    }
+                ]]></programlisting>
+        </section>
+    </section>
+</article>
