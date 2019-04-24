@@ -1,6 +1,6 @@
 /**
-*@description Базовый массив картинок для карточек в игре
-*/
+ * @description Базовый массив картинок для карточек в игре
+ */
 const images = ['img/cat1.png', 'img/cat2.png',
 'img/cat3.png', 'img/cat4.png', 'img/cat5.png',
 'img/cat6.png', 'img/cat7.png', 'img/cat8.png',
@@ -8,8 +8,8 @@ const images = ['img/cat1.png', 'img/cat2.png',
 'img/cat12.png', 'img/cat13.png', 'img/cat14.png', 'img/cat15.png'];
 
 /**
-*@description Состояние игры
-*/
+ * @description Состояние игры
+ */
 let game = {
     cardCount: 0,
     isStarted: false,
@@ -21,49 +21,49 @@ let game = {
 }
 
 /**
-*@description Экземляр Vue, представляющий меню игры
-*/
+ * @description Экземляр Vue, представляющий меню игры
+ */
 let menuVm = new Vue({
     el: "#menu",
     data: game.result
 })
 
 /**
-*@description Экземляр Vue, представляющий данные об окончании игры
-*/
+ * @description Экземляр Vue, представляющий данные об окончании игры
+ */
 let victoryModalVm = new Vue({
     el: "#victory-modal",
     data: game.result
 })
 
 /**
-*@description Кнопка перезапуска игры
-*/
+ * @description Кнопка перезапуска игры
+ */
 let restartButton = document.getElementById('restart');
 
 /**
-*@description Кнопка паузы
-*/
+ * @description Кнопка паузы
+ */
 let pauseButton = document.getElementById('pause');
 
 /**
-*@description Игровая сетка с карточками
-*/
+ * @description Игровая сетка с карточками
+ */
 let cardGrid = document.getElementById('card-grid');
 
 /**
-*@description Модальное наложение для сообщений о начале и об окончании игры
-*/
+ * @description Модальное наложение для сообщений о начале и об окончании игры
+ */
 let modalOverlay = document.getElementById("modal-overlay");
 
 /**
-*@description Модальное сообщение для начала игры
-*/
+ * @description Модальное сообщение для начала игры
+ */
 let startGameModal = document.getElementById("start-game-modal");
 
 /**
-*@description Модальное сообщение при окончании игры
-*/
+ * @description Модальное сообщение при окончании игры
+ */
 let victoryModal = document.getElementById("victory-modal");
 
 /**
@@ -82,8 +82,8 @@ function generateCard(number){
 }
 
 /**
-*@description Создаёт пары карточек и добавляет их на игровую сетку
-*/
+ * @description Создаёт пары карточек и добавляет их на игровую сетку
+ */
 function initCards(){
     // Получаем размер игровой сетки и рассчитываем общее количество карточек.
     let gridSizeElements = document.getElementsByClassName("grid-size");
@@ -140,8 +140,8 @@ function initCards(){
 }
 
 /**
-*@description Показывает или скрывает все карточки одновременно
-*/
+ * @description Показывает или скрывает все карточки одновременно
+ */
 function changeAllCardsState(){
     let cards = document.getElementsByClassName('card');
     for (var i = 0; i < cards.length; i++) {
@@ -150,16 +150,16 @@ function changeAllCardsState(){
 }
 
 /**
-*@description Показывает все карточки на на время для запоминания
-*/
+ * @description Показывает все карточки на на время для запоминания
+ */
 function showAll(){
     changeAllCardsState();
     setTimeout(changeAllCardsState, game.delayTime);
 }
 
 /**
-*@description Запускает таймер игры и делает доступными кнопку начала игры
-*/
+ * @description Запускает таймер игры и делает доступными кнопку начала игры
+ */
 function startTimer(){
     game.isStarted = true;
     restartButton.disabled = false;
@@ -182,8 +182,8 @@ function startTimer(){
 }
 
 /**
-*@description Изменяет состяние игры: пауза или продолжение игры.
-*/
+ * @description Изменяет состяние игры: пауза или продолжение игры.
+ */
 pauseButton.addEventListener("click", function(){
     game.isStarted = !game.isStarted;
     pauseButton.style.backgroundImage = game.isStarted ? 
@@ -191,8 +191,8 @@ pauseButton.addEventListener("click", function(){
 });
 
 /**
-*@description Начинает новую игру
-*/
+ * @description Начинает новую игру
+ */
 function startGame(){
     modalOverlay.style.display = "none";
     restartButton.disabled = true;
@@ -204,8 +204,8 @@ function startGame(){
 }
 
 /**
-*@description Сброс настроек игры
-*/
+ * @description Сброс настроек игры
+ */
 function resetGame(){
     game.isStarted = false;
     game.openCards = []; // Создаём новый пустой массив с открытыми карточками.
@@ -221,8 +221,8 @@ function resetGame(){
 }
 
 /**
-*@description Проверка на совпадение карточек
-*/
+ * @description Проверка на совпадение карточек
+ */
 function checkForMatches() {
     setTimeout(function(){
         if (game.openCards[0].innerHTML != game.openCards[1].innerHTML){
@@ -243,8 +243,8 @@ function checkForMatches() {
 }
 
 /**
-*@description Отображение модального окна для начала игры
-*/
+ * @description Отображение модального окна для начала игры
+ */
 function showStartGameModal(){
     resetGame();
     modalOverlay.style.display = "flex";
@@ -253,8 +253,8 @@ function showStartGameModal(){
 }
 
 /**
-*@description Отображение модального окна с поздравлениями по окончанию игры
-*/
+ * @description Отображение модального окна с поздравлениями по окончанию игры
+ */
 function showEndGameModal(){
     modalOverlay.style.display = "flex";
     victoryModal.style.display = "block";
@@ -262,30 +262,30 @@ function showEndGameModal(){
 }
 
 /**
-*@description Перезапуск игры во время продолжения игры
-*/
+ * @description Перезапуск игры во время продолжения игры
+ */
 restartButton.addEventListener("click", function(){
     showStartGameModal();
 });
 
 /**
-*@description Начало новой игры после окончания предыдущей
-*/
+ * @description Начало новой игры после окончания предыдущей
+ */ 
 document.getElementById("play-again").addEventListener("click", function(){
     showStartGameModal();
 });
 
 /**
-*@description Инициализация карточек, их отрисовка и запуск новой игры
-*/
+ * @description Инициализация карточек, их отрисовка и запуск новой игры
+ */
 document.getElementById("start-game").addEventListener("click", function(){
     initCards();
     startGame();
 });
 
 /**
-*@description Выделяет нажатую кнопку с размером игрового поля.
-*/
+ * @description Выделяет нажатую кнопку с размером игрового поля.
+ */
 document.getElementById("size-container").addEventListener("click",
     function(e){
     if(e.target.classList.contains("grid-size")){
@@ -302,9 +302,9 @@ document.getElementById("size-container").addEventListener("click",
 });
 
 /**
-*@description  По клику на игровую карточку изменяет её состояние: 
-открывает или скрывает, выполняя проверку на совпадения.
-*/
+ * @description  По клику на игровую карточку изменяет её состояние: 
+ открывает или скрывает, выполняя проверку на совпадения.
+ */
 cardGrid.addEventListener("click", function(e){
     if (!game.isStarted) return;
     // Если карточка закрыта и количество открытых карточек меньше двух,
@@ -322,6 +322,6 @@ cardGrid.addEventListener("click", function(e){
 });
 
 /**
-*@description Показывает модальное окно для начала новой игры
-*/
+ * @description Показывает модальное окно для начала новой игры
+ */
 showStartGameModal();
