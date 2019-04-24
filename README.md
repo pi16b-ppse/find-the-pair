@@ -3,6 +3,10 @@
 
 Игра доступна онлайн: https://vladamamutova.github.io/find-the-pair/.
 
+JsDoc: https://vladamamutova.github.io/find-the-pair/JsDoc/.
+
+DocBook: https://vladamamutova.github.io/find-the-pair/DocBook/.
+
 ## Об игре
 Игра состоит из чётного количества карточек, под которыми находятся пары одинаковых картинок.
 
@@ -21,3 +25,11 @@
 * Адаптивный дизайн для игры как с мобильного устройства, так и с десктопа.
 
 **[Попробуй, найди пару!](https://vladamamutova.github.io/find-the-pair/)**
+
+![Game demo](screenshots//game.gif)
+
+<div align="center">
+<img src="screenshots//1.png" width="250" alt="Начало игры"/>
+<img src="screenshots//2.png" width="250" alt="Игра Find The Pair"/>
+<img src="screenshots//3.png" width="250" alt="Окончание игры"/>
+</div>
